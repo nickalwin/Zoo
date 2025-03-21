@@ -3,9 +3,21 @@ using ZooNick.Models;
 
 namespace ZooNick.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoryController : Controller
     {
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        public IActionResult Edit(int id)
+        {
+            return View();
+        }
     }
 }
