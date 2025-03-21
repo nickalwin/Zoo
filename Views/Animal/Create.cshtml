@@ -1,10 +1,12 @@
+@model ZooNick.Models.Animal
+
 @{
-    ViewData["Title"] = "Add New Animal";
+    ViewData["Title"] = "Create Animal";
 }
 
-<h1>Add New Animal</h1>
+<h1>Create Animal</h1>
 
-<form method="post" action="/Animal/Create">
+<form method="post" asp-action="Create">
     <div>
         <label>Name:</label>
         <input type="text" name="Name" required />
@@ -25,7 +27,7 @@
         <label>Category ID:</label>
         <input type="number" name="CategoryId" required />
     </div>
-    <button type="submit">Add Animal</button>
+    <button type="submit">Create Animal</button>
 </form>
 
 <a href="/Animal">Back to Animal List</a>

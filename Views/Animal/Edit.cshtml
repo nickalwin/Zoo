@@ -1,31 +1,63 @@
+@model ZooNick.Models.Animal
+
 @{
     ViewData["Title"] = "Edit Animal";
 }
 
 <h1>Edit Animal</h1>
 
-<form method="post" action="/Animal/Edit">
+<form method="post" asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" name="Id" value="@Model.Id" />
+    
     <div>
+        <span asp-validation-for="Name" class="text-danger"></span>
         <label>Name:</label>
         <input type="text" name="Name" value="@Model.Name" required />
     </div>
+
     <div>
+        <span asp-validation-for="Species" class="text-danger"></span>
         <label>Species:</label>
         <input type="text" name="Species" value="@Model.Species" required />
     </div>
+    
     <div>
+        <span asp-validation-for="Age" class="text-danger"></span>
         <label>Age:</label>
         <input type="number" name="Age" value="@Model.Age" required />
     </div>
+
     <div>
-        <label>Enclosure ID:</label>
-        <input type="number" name="EnclosureId" value="@Model.EnclosureId" required />
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+        <label>Category:</label>
+        <select name="CategoryId" required>
+            <option value="">Select Category</option>
+            @if (ViewBag.Categories != null)
+            {
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <option value="@category.Id" selected="@(category.Id == Model.CategoryId ? "selected" : null)">@category.Name</option>
+                }
+            }
+        </select>
     </div>
+
     <div>
-        <label>Category ID:</label>
-        <input type="number" name="CategoryId" value="@Model.CategoryId" required />
+        <span asp-validation-for="EnclosureId" class="text-danger"></span>
+        <label>Enclosure:</label>
+        <select name="EnclosureId" required>
+            <option value="">Select Enclosure</option>
+            @if (ViewBag.Enclosures != null)
+            {
+                @foreach (var enclosure in ViewBag.Enclosures)
+                {
+                    <option value="@enclosure.Id" selected="@(enclosure.Id == Model.EnclosureId ? "selected" : null)">@enclosure.Name</option>
+                }
+            }
+        </select>
     </div>
+
     <button type="submit">Update Animal</button>
 </form>
 

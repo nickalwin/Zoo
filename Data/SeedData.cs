@@ -24,19 +24,19 @@ namespace ZooNick.Data
                 }
 
                 // Seed data
+                var mammalsCategory = new Category { Name = "Mammals", Description = "Warm-blooded animals with hair or fur." };
+                var birdsCategory = new Category { Name = "Birds", Description = "Feathered animals that lay eggs." };
+                context.Categories.AddRange(mammalsCategory, birdsCategory);
+                context.SaveChanges(); // Save categories first
+
+                var savannahEnclosure = new Enclosure { Name = "Savannah", Description = "Open area", Capacity = 10 };
+                var forestEnclosure = new Enclosure { Name = "Forest", Description = "Closed area", Capacity = 5 };
+                context.Enclosures.AddRange(savannahEnclosure, forestEnclosure);
+                context.SaveChanges(); // Save enclosures first
+
                 context.Animals.AddRange(
-                    new Animal { Name = "Lion", Species = "Panthera leo", Age = 5, EnclosureId = 1, CategoryId = 1 },
-                    new Animal { Name = "Elephant", Species = "Loxodonta", Age = 10, EnclosureId = 2, CategoryId = 2 }
-                );
-
-                context.Enclosures.AddRange(
-                    new Enclosure { Name = "Savannah", Description = "Open area", Capacity = 10 },
-                    new Enclosure { Name = "Forest", Description = "Closed area", Capacity = 5 }
-                );
-
-                context.Categories.AddRange(
-                    new Category { Name = "Mammals" },
-                    new Category { Name = "Birds" }
+                    new Animal { Name = "Lion", Species = "Panthera leo", Age = 5, EnclosureId = savannahEnclosure.Id, CategoryId = mammalsCategory.Id },
+                    new Animal { Name = "Elephant", Species = "Loxodonta", Age = 10, EnclosureId = forestEnclosure.Id, CategoryId = mammalsCategory.Id }
                 );
 
                 context.SaveChanges();

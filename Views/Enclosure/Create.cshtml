@@ -1,10 +1,12 @@
+@model ZooNick.Models.Enclosure
+
 @{
-    ViewData["Title"] = "Add New Enclosure";
+    ViewData["Title"] = "Create Enclosure";
 }
 
-<h1>Add New Enclosure</h1>
+<h1>Create Enclosure</h1>
 
-<form method="post" action="/Enclosure/Create">
+<form method="post" asp-action="Create">
     <div>
         <label>Name:</label>
         <input type="text" name="Name" required />
@@ -17,7 +19,7 @@
         <label>Capacity:</label>
         <input type="number" name="Capacity" required />
     </div>
-    <button type="submit">Add Enclosure</button>
+    <button type="submit">Create Enclosure</button>
 </form>
 
 <a href="/Enclosure">Back to Enclosure List</a>

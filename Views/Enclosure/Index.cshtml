@@ -1,16 +1,14 @@
+@model IEnumerable<ZooNick.Models.Enclosure>
+
 @{
-    ViewData["Title"] = "Manage Enclosures";
+    ViewData["Title"] = "Enclosures";
 }
 
-<h1>Manage Enclosures</h1>
-<nav>
-    <ul>
-        <li><a href="/Enclosure/Create">Add New Enclosure</a></li>
-    </ul>
-</nav>
+<h1>Enclosures</h1>
+<a asp-action="Create">Add New Enclosure</a>
 
-<table>
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>Name</th>
             <th>Description</th>
@@ -19,5 +17,19 @@
         </tr>
     </thead>
     <tbody>
+        @foreach (var enclosure in Model)
+        {
+            <tr>
+                <td>@enclosure.Name</td>
+                <td>@enclosure.Description</td>
+                <td>@enclosure.Capacity</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@enclosure.Id">Edit</a>
+                    <form method="post" asp-action="Delete" asp-route-id="@enclosure.Id" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

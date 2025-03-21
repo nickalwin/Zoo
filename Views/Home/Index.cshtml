@@ -1,8 +1,82 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿﻿@{
+    ViewData["Title"] = "Zoo Overview";
+    var animals = ViewBag.Animals as List<ZooNick.Models.Animal>;
+    var enclosures = ViewBag.Enclosures as List<ZooNick.Models.Enclosure>;
+    var categories = ViewBag.Categories as List<ZooNick.Models.Category>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Zoo Overview</h1>
+
+<h2>Animals</h2>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Species</th>
+            <th>Age</th>
+            <th>Enclosure</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (animals != null)
+        {
+            @foreach (var animal in animals)
+            {
+                <tr>
+                    <td>@animal.Name</td>
+                    <td>@animal.Species</td>
+                    <td>@animal.Age</td>
+                    <td>@(enclosures?.FirstOrDefault(e => e.Id == animal.EnclosureId)?.Name ?? "Unknown")</td>
+                    <td>@(categories?.FirstOrDefault(c => c.Id == animal.CategoryId)?.Name ?? "Unknown")</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h2>Enclosures</h2>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Capacity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (enclosures != null)
+        {
+            @foreach (var enclosure in enclosures)
+            {
+                <tr>
+                    <td>@enclosure.Name</td>
+                    <td>@enclosure.Description</td>
+                    <td>@enclosure.Capacity</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h2>Categories</h2>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (categories != null)
+        {
+            @foreach (var category in categories)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>@category.Description</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

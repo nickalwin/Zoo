@@ -1,10 +1,12 @@
+@model ZooNick.Models.Enclosure
+
 @{
     ViewData["Title"] = "Edit Enclosure";
 }
 
 <h1>Edit Enclosure</h1>
 
-<form method="post" action="/Enclosure/Edit">
+<form method="post" asp-action="Edit">
     <input type="hidden" name="Id" value="@Model.Id" />
     <div>
         <label>Name:</label>

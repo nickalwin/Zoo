@@ -1,23 +1,39 @@
+@model IEnumerable<ZooNick.Models.Animal>
+
 @{
-    ViewData["Title"] = "Manage Animals";
+    ViewData["Title"] = "Animals";
 }
 
-<h1>Manage Animals</h1>
-<nav>
-    <ul>
-        <li><a href="/Animal/Create">Add New Animal</a></li>
-    </ul>
-</nav>
+<h1>Animals</h1>
+<a asp-action="Create">Add New Animal</a>
 
-<table>
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>Name</th>
             <th>Species</th>
             <th>Age</th>
+            <th>Enclosure ID</th>
+            <th>Category ID</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
+        @foreach (var animal in Model)
+        {
+            <tr>
+                <td>@animal.Name</td>
+                <td>@animal.Species</td>
+                <td>@animal.Age</td>
+                <td>@animal.EnclosureId</td>
+                <td>@animal.CategoryId</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@animal.Id">Edit</a>
+                    <form method="post" asp-action="Delete" asp-route-id="@animal.Id" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
