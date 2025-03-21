@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Edit Enclosure";
+}
+
+<h1>Edit Enclosure</h1>
+
+<form method="post" action="/Enclosure/Edit">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div>
+        <label>Name:</label>
+        <input type="text" name="Name" value="@Model.Name" required />
+    </div>
+    <div>
+        <label>Description:</label>
+        <input type="text" name="Description" value="@Model.Description" required />
+    </div>
+    <div>
+        <label>Capacity:</label>
+        <input type="number" name="Capacity" value="@Model.Capacity" required />
+    </div>
+    <button type="submit">Update Enclosure</button>
+</form>
+
+<a href="/Enclosure">Back to Enclosure List</a>

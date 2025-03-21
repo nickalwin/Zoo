@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZooNick", "ZooNick.csproj", "{CC0CF720-08F2-6FD2-84FC-98D4D524ACB5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC0CF720-08F2-6FD2-84FC-98D4D524ACB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0CF720-08F2-6FD2-84FC-98D4D524ACB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC0CF720-08F2-6FD2-84FC-98D4D524ACB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC0CF720-08F2-6FD2-84FC-98D4D524ACB5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CAB7E04C-67AB-48CC-B965-6CB6EA66BA85}
+	EndGlobalSection
+EndGlobal
