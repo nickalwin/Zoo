@@ -1,64 +1,169 @@
+@using System.Linq;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using ZooNick.Models;
 @model ZooNick.Models.Animal
 
 @{
     ViewData["Title"] = "Edit Animal";
+
+    var sizeList = Enum.GetValues(typeof(SizeEnum))
+        .Cast<SizeEnum>()
+        .Select(s => new SelectListItem { Value = ((int)s).ToString(), Text = s.ToString() });
+
+    var dietaryClassList = Enum.GetValues(typeof(DietaryClassEnum))
+        .Cast<DietaryClassEnum>()
+        .Select(d => new SelectListItem { Value = ((int)d).ToString(), Text = d.ToString() });
+
+    var securityLevelList = Enum.GetValues(typeof(SecurityLevelEnum))
+        .Cast<SecurityLevelEnum>()
+        .Select(security => new SelectListItem { Value = ((int)security).ToString(), Text = security.ToString() });
+
+    var activityPatternList = Enum.GetValues(typeof(ActivityPatternEnum))
+        .Cast<ActivityPatternEnum>()
+        .Select(a => new SelectListItem { Value = ((int)a).ToString(), Text = a.ToString() });
+
+    var categories = ViewBag.Categories as List<Category> ?? new List<Category>();
+    var enclosures = ViewBag.Enclosures as List<Enclosure> ?? new List<Enclosure>();
 }
 
 <h1>Edit Animal</h1>
 
-<form method="post" asp-action="Edit">
+<form method="post" asp-action="Edit" id="animalEditForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" name="Id" value="@Model.Id" />
-    
-    <div>
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
-        <label>Name:</label>
-        <input type="text" name="Name" value="@Model.Name" required />
     </div>
 
-    <div>
-        <span asp-validation-for="Species" class="text-danger"></span>
-        <label>Species:</label>
-        <input type="text" name="Species" value="@Model.Species" required />
+    <div class="form-group">
+        <label asp-for="Species"></label>
+        <input asp-for="Species" class="form-control" placeholder="Enter species" />
+        <span asp-validation-for="Species" class="text-danger"></span> 
     </div>
     
-    <div>
-        <span asp-validation-for="Age" class="text-danger"></span>
-        <label>Age:</label>
-        <input type="number" name="Age" value="@Model.Age" required />
+    <div class="form-group">
+        <label asp-for="Age"></label>
+        <input asp-for="Age" type="number" class="form-control" placeholder="Enter age" />
+        <span asp-validation-for="Age" class="text-danger"></span> 
     </div>
 
-    <div>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
-        <label>Category:</label>
-        <select name="CategoryId" required>
+    <!-- Category Dropdown -->
+    <div class="form-group">
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(categories, "Id", "Name", Model.CategoryId))">
             <option value="">Select Category</option>
-            @if (ViewBag.Categories != null)
-            {
-                @foreach (var category in ViewBag.Categories)
-                {
-                    <option value="@category.Id" selected="@(category.Id == Model.CategoryId ? "selected" : null)">@category.Name</option>
-                }
-            }
         </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span> 
     </div>
 
-    <div>
-        <span asp-validation-for="EnclosureId" class="text-danger"></span>
-        <label>Enclosure:</label>
-        <select name="EnclosureId" required>
+    <!-- Enclosure Dropdown -->
+    <div class="form-group">
+        <label asp-for="EnclosureId"></label>
+        <select asp-for="EnclosureId" class="form-control" asp-items="@(new SelectList(enclosures, "Id", "Name", Model.EnclosureId))">
             <option value="">Select Enclosure</option>
-            @if (ViewBag.Enclosures != null)
-            {
-                @foreach (var enclosure in ViewBag.Enclosures)
-                {
-                    <option value="@enclosure.Id" selected="@(enclosure.Id == Model.EnclosureId ? "selected" : null)">@enclosure.Name</option>
-                }
-            }
         </select>
+        <span asp-validation-for="EnclosureId" class="text-danger"></span> 
     </div>
 
-    <button type="submit">Update Animal</button>
+    <!-- Size Enum Dropdown -->
+    <div class="form-group">
+        <label asp-for="Size"></label>
+        <select asp-for="Size" class="form-control" asp-items="@(new SelectList(sizeList, "Value", "Text", Model.Size))">
+            <option value="">Select Size</option>
+        </select>
+        <span asp-validation-for="Size" class="text-danger"></span> 
+    </div>
+
+    <!-- Dietary Class Enum Dropdown -->
+    <div class="form-group">
+        <label asp-for="DietaryClass"></label>
+        <select asp-for="DietaryClass" class="form-control" asp-items="@(new SelectList(dietaryClassList, "Value", "Text", Model.DietaryClass))">
+            <option value="">Select Dietary Class</option>
+        </select>
+        <span asp-validation-for="DietaryClass" class="text-danger"></span> 
+    </div>
+
+    <!-- Security Level Enum Dropdown -->
+    <div class="form-group">
+        <label asp-for="SecurityRequirement"></label>
+        <select asp-for="SecurityRequirement" class="form-control" asp-items="@(new SelectList(securityLevelList, "Value", "Text", Model.SecurityRequirement))">
+            <option value="">Select Security Requirement</option>
+        </select>
+        <span asp-validation-for="SecurityRequirement" class="text-danger"></span> 
+    </div>
+
+    <!-- Prey Blocks -->
+    <div class="form-group">
+        <label>Prey</label>
+        <div id="preyList" class="mb-3">
+            @if (!string.IsNullOrEmpty(Model.Prey))
+            {
+                var preyItems = Model.Prey.Split(',').ToList();
+                foreach (var prey in preyItems)
+                {
+                    <div class="input-group mb-2 prey-block">
+                        <input type="text" class="form-control" value="@prey" />
+                        <button type="button" class="btn btn-danger remove-prey">X</button>
+                    </div>
+                }
+            }
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" id="newPrey" class="form-control" placeholder="Add new prey" />
+            <button type="button" id="addPrey" class="btn btn-primary">Add Prey</button>
+        </div>
+    </div>
+
+    <!-- Space Requirement Input -->
+    <div class="form-group">
+        <label asp-for="SpaceRequirement"></label>
+        <input asp-for="SpaceRequirement" type="number" class="form-control" placeholder="Enter space requirement" value="@Model.SpaceRequirement" />
+        <span asp-validation-for="SpaceRequirement" class="text-danger"></span>
+    </div>
+
+    <!-- Activity Pattern Dropdown -->
+    <div class="form-group">
+        <label asp-for="ActivityPattern"></label>
+        <select asp-for="ActivityPattern" class="form-control" asp-items="@(new SelectList(activityPatternList, "Value", "Text", Model.ActivityPattern))">
+            <option value="">Select Activity Pattern</option>
+        </select>
+        <span asp-validation-for="ActivityPattern" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Animal</button>
 </form>
 
-<a href="/Animal">Back to Animal List</a>
+<a href="/Animal" class="btn btn-secondary mt-3">Back to Animal List</a>
+
+<script>
+    document.getElementById('addPrey').addEventListener('click', function() {
+        var newPrey = document.getElementById('newPrey').value;
+        if (newPrey) {
+            var preyList = document.getElementById('preyList');
+            var newBlock = document.createElement('div');
+            newBlock.className = 'input-group mb-2 prey-block';
+            newBlock.innerHTML = '<input type="text" class="form-control" value="' + newPrey + '" />' +
+                                 '<button type="button" class="btn btn-danger remove-prey">X</button>';
+            preyList.appendChild(newBlock);
+            document.getElementById('newPrey').value = '';
+        }
+    });
+
+    document.getElementById('preyList').addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-prey')) {
+            e.target.parentElement.remove();
+        }
+    });
+
+    document.getElementById('animalEditForm').addEventListener('submit', function() {
+        var preyInputs = document.querySelectorAll('#preyList input[type="text"]');
+        var preyArray = [];
+        preyInputs.forEach(function(input) {
+            preyArray.push(input.value);
+        });
+        document.getElementById('Prey').value = preyArray.join(','); // Assuming there's a hidden input for Prey
+    });
+</script>

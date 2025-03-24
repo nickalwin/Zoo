@@ -10,7 +10,7 @@ using ZooNick.Data;
 namespace ZooNick.Migrations
 {
     [DbContext(typeof(ZooContext))]
-    [Migration("20250321140853_InitialCreate")]
+    [Migration("20250321203631_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,10 +25,16 @@ namespace ZooNick.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ActivityPattern")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Age")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DietaryClass")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("EnclosureId")
@@ -37,6 +43,19 @@ namespace ZooNick.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Prey")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SecurityRequirement")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("SpaceRequirement")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Species")
                         .IsRequired()
@@ -79,13 +98,25 @@ namespace ZooNick.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Climate")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("HabitatType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("SecurityLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
@@ -101,7 +132,7 @@ namespace ZooNick.Migrations
                         .IsRequired();
 
                     b.HasOne("ZooNick.Models.Enclosure", "Enclosure")
-                        .WithMany()
+                        .WithMany("Animals")
                         .HasForeignKey("EnclosureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -109,6 +140,11 @@ namespace ZooNick.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Enclosure");
+                });
+
+            modelBuilder.Entity("ZooNick.Models.Enclosure", b =>
+                {
+                    b.Navigation("Animals");
                 });
 #pragma warning restore 612, 618
         }
